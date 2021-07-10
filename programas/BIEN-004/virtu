@@ -1,0 +1,61 @@
+0 [JMP 32]
+1 [PFM 0]
+2 [POP 3]
+3 [PFM 1]
+4 [POP 4]
+5 [PFM 3]
+6 [PFM 4]
+7 NEQ
+8 [JC 10]
+9 [JMP 29]
+10 [PFM 3]
+11 [PFM 4]
+12 LT
+13 [JC 15]
+14 [JMP 19]
+15 [PFM 4]
+16 [PFM 3]
+17 SUB
+18 [POP 4]
+19 [PFM 4]
+20 [PFM 3]
+21 LT
+22 [JC 24]
+23 [JMP 28]
+24 [PFM 3]
+25 [PFM 4]
+26 SUB
+27 [POP 3]
+28 [JMP 5]
+29 [PFM 3]
+30 [POP 2]
+31 RET
+32 [OUT '************************************************************']
+33 NL
+34 [OUT 'Se ingresan dos valores, se muestra su maximo comun divisor.']
+35 NL
+36 [OUT 'Se utiliza el algoritmo de Euclides.']
+37 NL
+38 [OUT '************************************************************']
+39 NL
+40 [OUT 'X: ']
+41 [IN 0]
+42 [PFM 0]
+43 [PFI 0]
+44 GT
+45 [JC 47]
+46 [JMP 59]
+47 [OUT 'Y: ']
+48 [IN 1]
+49 [PFM 1]
+50 [PFI 0]
+51 GT
+52 [JC 54]
+53 [JMP 59]
+54 [CAL 1]
+55 [OUT 'MCD: ']
+56 [PFM 2]
+57 OUT
+58 NL
+59 NL
+60 HLT

@@ -1,0 +1,7 @@
+****************************************************
+Se ingresa un valor, se muestra su raiz cuadrada o
+el intervalo al que pertenece, si esta no es entera.
+Se utiliza el algoritmo de busqueda lineal.
+****************************************************
+N: 83
+RAIZ CUADRADA DE 83: 9..10

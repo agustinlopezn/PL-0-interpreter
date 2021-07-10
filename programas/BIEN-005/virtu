@@ -1,0 +1,72 @@
+0 [JMP 20]
+1 [PFI 1]
+2 NEG
+3 NEG
+4 [POP 0]
+5 RET
+6 [CAL 1]
+7 [PFM 0]
+8 [PFM 0]
+9 MUL
+10 [PFM 1]
+11 LT
+12 [JC 14]
+13 [JMP 19]
+14 [PFM 0]
+15 [PFI 1]
+16 ADD
+17 [POP 0]
+18 [JMP 7]
+19 RET
+20 [OUT '****************************************************']
+21 NL
+22 [OUT 'Se ingresa un valor, se muestra su raiz cuadrada o']
+23 NL
+24 [OUT 'el intervalo al que pertenece, si esta no es entera.']
+25 NL
+26 [OUT 'Se utiliza el algoritmo de busqueda lineal.']
+27 NL
+28 [OUT '****************************************************']
+29 NL
+30 [OUT 'N: ']
+31 [IN 1]
+32 [OUT 'RAIZ CUADRADA DE ']
+33 [PFM 1]
+34 OUT
+35 [OUT ': ']
+36 [PFM 1]
+37 [PFI 0]
+38 LT
+39 [JC 41]
+40 [JMP 42]
+41 [OUT 'ERROR']
+42 [PFM 1]
+43 [PFI 0]
+44 EQ
+45 [JC 47]
+46 [JMP 49]
+47 [PFI 0]
+48 OUT
+49 [PFM 1]
+50 [PFI 0]
+51 GT
+52 [JC 54]
+53 [JMP 69]
+54 [CAL 6]
+55 [PFM 0]
+56 [PFM 0]
+57 MUL
+58 [PFM 1]
+59 NEQ
+60 [JC 62]
+61 [JMP 67]
+62 [PFM 0]
+63 [PFI 1]
+64 SUB
+65 OUT
+66 [OUT '..']
+67 [PFM 0]
+68 OUT
+69 NL
+70 NL
+71 HLT

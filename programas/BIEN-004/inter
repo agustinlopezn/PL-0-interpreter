@@ -1,0 +1,7 @@
+************************************************************
+Se ingresan dos valores, se muestra su maximo comun divisor.
+Se utiliza el algoritmo de Euclides.
+************************************************************
+X: 16
+Y: 24
+MCD: 8
