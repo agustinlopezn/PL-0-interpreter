@@ -1,0 +1,28 @@
+0 [JMP 7]
+1 [JMP 5]
+2 [PFI 2]
+3 [POP 0]
+4 RET
+5 [CAL 2]
+6 RET
+7 [OUT '*****************************************************************']
+8 NL
+9 [OUT 'Se ingresa un valor, se muestra su doble.']
+10 NL
+11 [OUT 'Ejemplo de eclipse de nombres (shadowing) en la asignacion X := Y']
+12 NL
+13 [OUT '(la variable global Y es eclipsada por la constante local Y)']
+14 NL
+15 [OUT '*****************************************************************']
+16 NL
+17 [OUT 'NUM=']
+18 [IN 1]
+19 [CAL 1]
+20 [OUT 'NUM*2=']
+21 [PFM 1]
+22 [PFM 0]
+23 MUL
+24 OUT
+25 NL
+26 NL
+27 HLT

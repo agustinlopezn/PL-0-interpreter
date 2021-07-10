@@ -1,0 +1,44 @@
+0 [JMP 16]
+1 [PFM 1]
+2 [PFI 0]
+3 GT
+4 [JC 6]
+5 [JMP 15]
+6 [PFM 2]
+7 [PFM 0]
+8 MUL
+9 [POP 2]
+10 [PFM 1]
+11 [PFI 1]
+12 SUB
+13 [POP 1]
+14 [CAL 1]
+15 RET
+16 [OUT '*****************************************************']
+17 NL
+18 [OUT 'Se ingresan base y exponente, se muestra la potencia.']
+19 NL
+20 [OUT 'Ejemplo de funcion recursiva']
+21 NL
+22 [OUT '*****************************************************']
+23 NL
+24 [OUT 'BASE: ']
+25 [IN 0]
+26 [OUT 'EXPONENTE: ']
+27 [IN 1]
+28 [PFI 1]
+29 [POP 2]
+30 [CAL 1]
+31 [PFM 1]
+32 [PFI 0]
+33 LT
+34 [JC 36]
+35 [JMP 38]
+36 [PFI 0]
+37 [POP 2]
+38 [OUT 'RESULTADO: ']
+39 [PFM 2]
+40 OUT
+41 NL
+42 NL
+43 HLT

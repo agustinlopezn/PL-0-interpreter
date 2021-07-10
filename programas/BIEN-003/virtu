@@ -1,0 +1,153 @@
+0 [JMP 118]
+1 [PFI 0]
+2 [POP 2]
+3 [PFM 0]
+4 [POP 3]
+5 [PFM 3]
+6 [PFI 0]
+7 LT
+8 [JC 10]
+9 [JMP 13]
+10 [PFM 3]
+11 NEG
+12 [POP 3]
+13 [PFM 1]
+14 [POP 5]
+15 [PFM 5]
+16 [PFI 0]
+17 LT
+18 [JC 20]
+19 [JMP 23]
+20 [PFM 5]
+21 NEG
+22 [POP 5]
+23 [PFM 1]
+24 [POP 4]
+25 [PFM 4]
+26 [PFI 0]
+27 LT
+28 [JC 30]
+29 [JMP 33]
+30 [PFM 4]
+31 NEG
+32 [POP 4]
+33 [PFM 5]
+34 [PFM 3]
+35 LTE
+36 [JC 38]
+37 [JMP 43]
+38 [PFM 5]
+39 [PFI 2]
+40 MUL
+41 [POP 5]
+42 [JMP 33]
+43 [PFM 5]
+44 [PFM 4]
+45 GT
+46 [JC 48]
+47 [JMP 70]
+48 [PFM 2]
+49 [PFI 2]
+50 MUL
+51 [POP 2]
+52 [PFM 5]
+53 [PFI 2]
+54 DIV
+55 [POP 5]
+56 [PFM 5]
+57 [PFM 3]
+58 LTE
+59 [JC 61]
+60 [JMP 69]
+61 [PFM 3]
+62 [PFM 5]
+63 SUB
+64 [POP 3]
+65 [PFM 2]
+66 [PFI 1]
+67 ADD
+68 [POP 2]
+69 [JMP 43]
+70 [PFM 0]
+71 [PFI 0]
+72 LT
+73 [JC 75]
+74 [JMP 78]
+75 [PFM 3]
+76 NEG
+77 [POP 3]
+78 [PFM 0]
+79 [PFI 0]
+80 LT
+81 [JC 83]
+82 [JMP 86]
+83 [PFM 2]
+84 NEG
+85 [POP 2]
+86 [PFM 1]
+87 [PFI 0]
+88 LT
+89 [JC 91]
+90 [JMP 94]
+91 [PFM 2]
+92 NEG
+93 [POP 2]
+94 RET
+95 [JMP 107]
+96 [PFM 0]
+97 [PFM 1]
+98 DIV
+99 [POP 2]
+100 [PFM 0]
+101 [PFM 1]
+102 [PFM 2]
+103 MUL
+104 SUB
+105 [POP 3]
+106 RET
+107 [CAL 96]
+108 RET
+109 [OUT ' Cociente: ']
+110 [PFM 2]
+111 OUT
+112 NL
+113 [OUT ' Resto: ']
+114 [PFM 3]
+115 OUT
+116 NL
+117 RET
+118 [OUT '************************************************************']
+119 NL
+120 [OUT 'Se ingresan dos valores, se muestra su cociente.']
+121 NL
+122 [OUT 'Se utilizan dos metodos:']
+123 NL
+124 [OUT 'Metodo 1: el algoritmo "desplazar y restar" (shift-subtract)']
+125 NL
+126 [OUT 'Metodo 2: el operador / (division entera) provisto por PL/0.']
+127 NL
+128 [OUT 'Cada CALL DIVIDIR se refiere a un procedimiento distinto.']
+129 NL
+130 [OUT '************************************************************']
+131 NL
+132 [OUT 'Dividendo: ']
+133 [IN 0]
+134 [OUT 'Divisor: ']
+135 [IN 1]
+136 NL
+137 [PFM 1]
+138 [PFI 0]
+139 NEQ
+140 [JC 142]
+141 [JMP 151]
+142 [OUT 'Metodo 1']
+143 NL
+144 [CAL 1]
+145 [CAL 109]
+146 NL
+147 [OUT 'Metodo 2']
+148 NL
+149 [CAL 95]
+150 [CAL 109]
+151 NL
+152 HLT

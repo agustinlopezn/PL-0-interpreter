@@ -1,0 +1,83 @@
+0 [JMP 62]
+1 [PFM 0]
+2 [POP 3]
+3 [PFM 1]
+4 [POP 4]
+5 [PFI 0]
+6 [POP 2]
+7 [PFM 0]
+8 [PFI 0]
+9 LT
+10 [JC 12]
+11 [JMP 15]
+12 [PFM 3]
+13 NEG
+14 [POP 3]
+15 [PFM 1]
+16 [PFI 0]
+17 LT
+18 [JC 20]
+19 [JMP 23]
+20 [PFM 4]
+21 NEG
+22 [POP 4]
+23 [PFM 4]
+24 [PFI 0]
+25 GT
+26 [JC 28]
+27 [JMP 45]
+28 [PFM 4]
+29 ODD
+30 [JC 32]
+31 [JMP 36]
+32 [PFM 2]
+33 [PFM 3]
+34 ADD
+35 [POP 2]
+36 [PFM 3]
+37 [PFI 2]
+38 MUL
+39 [POP 3]
+40 [PFM 4]
+41 [PFI 2]
+42 DIV
+43 [POP 4]
+44 [JMP 23]
+45 [PFM 0]
+46 [PFI 0]
+47 LT
+48 [JC 50]
+49 [JMP 53]
+50 [PFM 2]
+51 NEG
+52 [POP 2]
+53 [PFM 1]
+54 [PFI 0]
+55 LT
+56 [JC 58]
+57 [JMP 61]
+58 [PFM 2]
+59 NEG
+60 [POP 2]
+61 RET
+62 [OUT '************************************************************']
+63 NL
+64 [OUT 'Se ingresan dos valores, se muestra su producto.']
+65 NL
+66 [OUT 'Se utiliza el algoritmo de "multiplicacion por duplicacion".']
+67 NL
+68 [OUT '(Metodo campesino ruso de multiplicacion)']
+69 NL
+70 [OUT '************************************************************']
+71 NL
+72 [OUT 'X: ']
+73 [IN 0]
+74 [OUT 'Y: ']
+75 [IN 1]
+76 [CAL 1]
+77 [OUT 'X*Y=']
+78 [PFM 2]
+79 OUT
+80 NL
+81 NL
+82 HLT

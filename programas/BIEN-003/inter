@@ -1,0 +1,15 @@
+************************************************************
+Se ingresan dos valores, se muestra su cociente.
+Se utilizan dos metodos:
+Metodo 1: el algoritmo "desplazar y restar" (shift-subtract)
+Metodo 2: el operador / (division entera) provisto por PL/0.
+Cada CALL DIVIDIR se refiere a un procedimiento distinto.
+************************************************************
+Dividendo: 34
+Divisor: 4
+Metodo 1
+ Cociente: 8
+ Resto: 2
+Metodo 2
+ Cociente: 8
+ Resto: 2

@@ -1,0 +1,8 @@
+************************************************************
+Se ingresan dos valores, se muestra su producto.
+Se utiliza el algoritmo de "multiplicacion por duplicacion".
+(Metodo campesino ruso de multiplicacion)
+************************************************************
+X: 17
+Y: 2
+X*Y=34
