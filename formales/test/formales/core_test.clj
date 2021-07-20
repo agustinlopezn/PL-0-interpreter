@@ -210,14 +210,14 @@
   )
 )
 ; JMP: Reemplaza el contador de programa por la direccion que forma parte de la instruccion
-;(deftest test-interpretar-jmp
-;  (testing "Funcionalidad de JMP en interpretar"
-;    (is (= [[['JMP 1] ['TEST]] [6 7 8 9] 1 [2 3] []] 
-;           (interpretar [['JMP 3] ['TEST]] [6 7 8 9] 0 [2 3] [])
-;        )
-;    )
-;  )
-;)
+(deftest test-interpretar-jmp
+  (testing "Funcionalidad de JMP en interpretar"
+    (is (= [[['JMP 3] [] [] ['TEST]] [6 7 8 9] 3 [2 3] []] 
+           (interpretar [['JMP 3] [] [] ['TEST]] [6 7 8 9] 0 [2 3] [])
+        )
+    )
+  )
+)
 ; JC : Saca un valor de la pila de datos y si es 0 incrementa el contador de programa (si no, reemplaza el contador de programa por la direccion que forma parte de la instruccion)
 (deftest test-interpretar-jc-cero
   (testing "Funcionalidad de JC en interpretar"
@@ -228,32 +228,32 @@
   )
 )
 
-;(deftest test-interpretar-jc-no-cero
-;  (testing "Funcionalidad de JC en interpretar"
-;    (is (= [[['JC 3] ['TEST]] [6 7 8 9] 3 [2] []] 
-;           (interpretar [['JC 3] ['TEST]] [6 7 8 9] 0 [2 3] [])
-;        )
-;    )
-;  )
-;)
+(deftest test-interpretar-jc-no-cero
+  (testing "Funcionalidad de JC en interpretar"
+    (is (= [[['JC 3] [] [] ['TEST]] [6 7 8 9] 3 [2] []] 
+           (interpretar [['JC 3] [] [] ['TEST]] [6 7 8 9] 0 [2 3] [])
+        )
+    )
+  )
+)
 ; CAL: Coloca en la pila de llamadas el valor del contador de programa incrementado en 1 y reemplaza el contador de programa por la direccion que forma parte de la instruccion
-;(deftest test-interpretar-cal
-;  (testing "Funcionalidad de CAL en interpretar"
-;    (is (= [[['CAL 3] ['TEST]] [6 7 8 9] 3 [2 3] [1]] 
-;           (interpretar [['CAL 3] ['TEST]] [6 7 8 9] 0 [2 3] [])
-;        )
-;    )
-;  )
-;)
+(deftest test-interpretar-cal
+  (testing "Funcionalidad de CAL en interpretar"
+    (is (= [[['CAL 3] [] [] ['TEST]] [6 7 8 9] 3 [2 3] [1]] 
+           (interpretar [['CAL 3] [] [] ['TEST]] [6 7 8 9] 0 [2 3] [])
+        )
+    )
+  )
+)
 ;; RET: Saca una direccion de la pila de llamadas y la coloca en el contador de programa
-;(deftest test-interpretar-ret
-;  (testing "Funcionalidad de RET en interpretar"
-;    (is (= [[['RET] ['TEST]] [6 7 8 9] 7 [2 3] [5]] 
-;           (interpretar [['RET] ['TEST]] [6 7 8 9] 0 [2 3] [5 7])
-;        )
-;    )
-;  )
-;)
+(deftest test-interpretar-ret
+  (testing "Funcionalidad de RET en interpretar"
+    (is (= [[['RET] [] [] ['TEST]] [6 7 8 9] 3 [2 3] [5]] 
+           (interpretar [['RET] [] [] ['TEST]] [6 7 8 9] 0 [2 3] [5 3])
+        )
+    )
+  )
+)
 
 
 (deftest test-a-mayusculas-salvo-strings 
@@ -303,8 +303,36 @@
            (identificador? "V2")
         )
     )
+    (is (= true 
+           (identificador? "X")
+        )
+    )
+    (is (= false 
+           (identificador? (symbol "("))
+        )
+    )
     (is (= false 
            (identificador? 'CALL)
+        )
+    )
+    (is (= false 
+           (identificador? "(")
+        )
+    )
+    (is (= false 
+           (identificador? "CALL")
+        )
+    )
+    (is (= false 
+           (identificador? "'Cadena")
+        )
+    )
+    (is (= false 
+           (identificador? "")
+        )
+    )
+    (is (= false 
+           (identificador? nil)
         )
     )
   )
@@ -444,19 +472,20 @@
 ; [END (.) [VAR X ; BEGIN X := + ( X * 2 + 1 )] :sin-errores [[0] [[X VAR 0]]] 1 [[PFM 0] [PFI 2] MUL [PFI 1] ADD]]
 ; user=> (expresion ['- (list (symbol "(") 'X '* 2 '+ 1 (symbol ")") 'END (symbol ".")) ['VAR 'X (symbol ";") 'BEGIN 'X (symbol ":=")] :sin-errores '[[0] [[X VAR 0]]] 1 []])
 ; [END (.) [VAR X ; BEGIN X := - ( X * 2 + 1 )] :sin-errores [[0] [[X VAR 0]]] 1 [[PFM 0] [PFI 2] MUL [PFI 1] ADD NEG]]
-(deftest test-expresion 
-  (testing "Expresion con diferentes llamadas"
-    (is (= "[- (( X * 2 + 1 ) END .) [VAR X ; BEGIN X :=] :error [[0] [[X VAR 0]]] 1 []]"
-      (str (expresion ['- (list (symbol "(") 'X '* 2 '+ 1 (symbol ")") 'END (symbol ".")) ['VAR 'X (symbol ";") 'BEGIN 'X (symbol ":=")] :error '[[0] [[X VAR 0]]] 1 []])))
-    )
-    (is (= "[END (.) [VAR X ; BEGIN X := + ( X * 2 + 1 )] :sin-errores [[0] [[X VAR 0]]] 1 [[PFM 0] [PFI 2] MUL [PFI 1] ADD]]"
-      (str (expresion ['+ (list (symbol "(") 'X '* 2 '+ 1 (symbol ")") 'END (symbol ".")) ['VAR 'X (symbol ";") 'BEGIN 'X (symbol ":=")] :sin-errores '[[0] [[X VAR 0]]] 1 []])))
-    )
-    (is (= "[END (.) [VAR X ; BEGIN X := - ( X * 2 + 1 )] :sin-errores [[0] [[X VAR 0]]] 1 [[PFM 0] [PFI 2] MUL [PFI 1] ADD NEG]]"
-      (str (expresion ['- (list (symbol "(") 'X '* 2 '+ 1 (symbol ")") 'END (symbol ".")) ['VAR 'X (symbol ";") 'BEGIN 'X (symbol ":=")] :sin-errores '[[0] [[X VAR 0]]] 1 []])))
-    )
-  )
-)
+
+;(deftest test-expresion 
+;  (testing "Expresion con diferentes llamadas"
+;    (is (= "[- (( X * 2 + 1 ) END .) [VAR X ; BEGIN X :=] :error [[0] [[X VAR 0]]] 1 []]"
+;      (str (expresion ['- (list (symbol "(") 'X '* 2 '+ 1 (symbol ")") 'END (symbol ".")) ['VAR 'X (symbol ";") 'BEGIN 'X (symbol ":=")] :error '[[0] [[X VAR 0]]] 1 []])))
+;    )
+;    (is (= "[END (.) [VAR X ; BEGIN X := + ( X * 2 + 1 )] :sin-errores [[0] [[X VAR 0]]] 1 [[PFM 0] [PFI 2] MUL [PFI 1] ADD]]"
+;      (str (expresion ['+ (list (symbol "(") 'X '* 2 '+ 1 (symbol ")") 'END (symbol ".")) ['VAR 'X (symbol ";") 'BEGIN 'X (symbol ":=")] :sin-errores '[[0] [[X VAR 0]]] 1 []])))
+;    )
+;    (is (= "[END (.) [VAR X ; BEGIN X := - ( X * 2 + 1 )] :sin-errores [[0] [[X VAR 0]]] 1 [[PFM 0] [PFI 2] MUL [PFI 1] ADD NEG]]"
+;      (str (expresion ['- (list (symbol "(") 'X '* 2 '+ 1 (symbol ")") 'END (symbol ".")) ['VAR 'X (symbol ";") 'BEGIN 'X (symbol ":=")] :sin-errores '[[0] [[X VAR 0]]] 1 []])))
+;    )
+;  )
+;)
 
 (deftest test-aplicar-aritmetico
   (testing "Aritmetico con diferentes llamadas"

@@ -70,10 +70,10 @@
 (declare aplicar-relacional)
 (declare dump)
 
-; (defn spy
-;   ([x] (do (prn x) x))
-;   ([msg x] (do (print msg) (print ": ") (prn x) x))
-; )
+(defn spy
+  ([x] (do (prn x) x))
+  ([msg x] (do (print msg) (print ": ") (prn x) x))
+)
 
 (defn driver-loop
    ([]
@@ -675,26 +675,16 @@
           PFM (let [value (get mem (second fetched))]
             (recur cod mem (inc cont-prg) (conj pila-dat value) pila-llam))
           PFI (recur cod mem (inc cont-prg) (conj pila-dat (second fetched)) pila-llam)
-          ADD (let [last-value (last pila-dat) pila-dat-aux (butlast pila-dat)]
-            (recur cod mem (inc cont-prg) (aplicar-aritmetico + pila-dat) pila-llam))
-          SUB (let [last-value (last pila-dat) pila-dat (pop pila-dat) butlast-value (last pila-dat)]
-            (recur cod mem (inc cont-prg) (aplicar-aritmetico - pila-dat) pila-llam))
-          MUL (let [last-value (last pila-dat) pila-dat (pop pila-dat) butlast-value (last pila-dat)]
-            (recur cod mem (inc cont-prg) (conj (pop pila-dat) (* last-value butlast-value)) pila-llam))
-          DIV (let [last-value (last pila-dat) pila-dat (pop pila-dat) butlast-value (last pila-dat)]
-            (recur cod mem (inc cont-prg) (conj (pop pila-dat) (/ last-value butlast-value)) pila-llam))
-          EQ (let [last-value (last pila-dat) pila-dat (pop pila-dat) butlast-value (last pila-dat) value (if (= last-value butlast-value) 1 0)]
-            (recur cod mem (inc cont-prg) (conj (pop pila-dat) value) pila-llam))  
-          NEQ (let [last-value (last pila-dat) pila-dat (pop pila-dat) butlast-value (last pila-dat) value (if (not= last-value butlast-value) 1 0)]
-            (recur cod mem (inc cont-prg) (conj (pop pila-dat) value) pila-llam)) 
-          GT (let [last-value (last pila-dat) pila-dat (pop pila-dat) butlast-value (last pila-dat) value (if (> butlast-value last-value) 1 0)]
-            (recur cod mem (inc cont-prg) (conj (pop pila-dat) value) pila-llam)) 
-          GTE (let [last-value (last pila-dat) pila-dat (pop pila-dat) butlast-value (last pila-dat) value (if (>= butlast-value last-value) 1 0)]
-            (recur cod mem (inc cont-prg) (conj (pop pila-dat) value) pila-llam)) 
-          LT (let [last-value (last pila-dat) pila-dat (pop pila-dat) butlast-value (last pila-dat) value (if (< butlast-value last-value) 1 0)]
-            (recur cod mem (inc cont-prg) (conj (pop pila-dat) value) pila-llam)) 
-          LTE (let [last-value (last pila-dat) pila-dat (pop pila-dat) butlast-value (last pila-dat) value (if (<= butlast-value last-value) 1 0)]
-            (recur cod mem (inc cont-prg) (conj (pop pila-dat) value) pila-llam))
+          ADD (recur cod mem (inc cont-prg) (aplicar-aritmetico + pila-dat) pila-llam)
+          SUB (recur cod mem (inc cont-prg) (aplicar-aritmetico - pila-dat) pila-llam)
+          MUL (recur cod mem (inc cont-prg) (aplicar-aritmetico * pila-dat) pila-llam)
+          DIV (recur cod mem (inc cont-prg) (aplicar-aritmetico / pila-dat) pila-llam)
+          EQ (recur cod mem (inc cont-prg) (aplicar-relacional = pila-dat) pila-llam)  
+          NEQ (recur cod mem (inc cont-prg) (aplicar-relacional not= pila-dat) pila-llam) 
+          GT (recur cod mem (inc cont-prg) (aplicar-relacional > pila-dat) pila-llam) 
+          GTE (recur cod mem (inc cont-prg) (aplicar-relacional >= pila-dat) pila-llam) 
+          LT (recur cod mem (inc cont-prg) (aplicar-relacional < pila-dat) pila-llam) 
+          LTE (recur cod mem (inc cont-prg) (aplicar-relacional <= pila-dat) pila-llam)
           NEG (let [value (last pila-dat)]
             (recur cod mem (inc cont-prg) (conj (pop pila-dat) (- value)) pila-llam)) 
           ODD (let [last-value (last pila-dat) value (if (odd? last-value) 1 0)]
@@ -751,8 +741,8 @@
   (cond 
     (string? x)
       (cond
-      (let [reservadas ["CALL" "CONST" "VAR" "PROCEDURE" "BEGIN" "IF" "WHILE" "ODD" "THEN" "DO" "END" "WRITELN"]]
-        (some #(= x %) reservadas)) true
+      (let [reservadas ["CALL" "CONST" "VAR" "PROCEDURE" "BEGIN" "IF" "WHILE" "ODD" "THEN" "DO" "END" "WRITELN" "WRITE" "READ" "READLN"]]
+        (some #(= (str x) %) reservadas)) true
         :else false
       )
     :else (palabra-reservada? (str x))
@@ -772,8 +762,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defn identificador? [x]
   (cond
-    (palabra-reservada? x) false
-    (or (string? x) (symbol? x)) true
+    (or (number? x) (palabra-reservada? x)) false
+    (let [letras [\A \B \C \D \E \F \G \H \I \J \K \L \M \N \O \P \Q \R \S \T \U \V \W \X \Y \Z \a \b \c \d \e \f \g \h \i \j \k \l \m \n \o \p \q \r \s \t \u \v \w \x \y \z]] 
+      (or (symbol? x) (some #(= (first (str x)) %) letras))) true
     :else false
   )
 )
@@ -936,8 +927,11 @@
     (not= (estado amb) :sin-errores) amb
     :else (-> amb
       (procesar-signo-unario)
+      (spy)
+      (termino)
+      (spy)
       (procesar-mas-terminos)
-      (procesar-mas-factores)
+      (spy)
     )
   )
 ;procesar unario
@@ -980,7 +974,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defn aplicar-aritmetico [op pila]
   (cond
-    (or (es-pila-invalida? pila) (identificador? op)) pila
+    (or (es-pila-invalida? pila) (identificador? 'op)) pila
     :else (let [last-val (last pila) pila-aux (pop pila) butlast-val (last pila-aux)]
       (try
         (conj (pop pila-aux) (op last-val butlast-val)) 
@@ -1011,7 +1005,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defn aplicar-relacional [op pila]
   (cond
-    (or (es-pila-invalida? pila) (identificador? op)) pila
+    (or (es-pila-invalida? pila) (identificador? 'op)) pila
     :else (let [last-value (last pila) pila (pop pila) butlast-value (last pila) value (if (op butlast-value last-value) 1 0)]
       (conj (pop pila) value))
   )
@@ -1081,7 +1075,7 @@
 ; ([X VAR 0] [X VAR 2])
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defn buscar-coincidencias [amb]
-  (let [id (last (nth amb 2)) simbs (second (nth amb 4))]
+  (let [id (last (simb-ya-parseados amb)) simbs (second (contexto amb))]
     (filter (fn [x] (= (first x) id)) simbs)
   )
 )
